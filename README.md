@@ -1,4 +1,3 @@
-# Curso-R-Gen-2020
 ---
 
 Repositório dedicado ao curso de R ministrado durante os dias 01 a 03/06/2020 via Livestream na plataforma Google Meet
