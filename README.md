@@ -7,7 +7,7 @@ Repositório dedicado ao curso de R ministrado durante os dias 01 a 03/06/2020 v
                        CURSO ONLINE DE R: Primeiros passos até o básico para a análise de dados
                                            Eric Vinicius Vieira Silva
                              Doutorando em Genética e Melhoramento de Plantas - UFLA
-                      (37) 9 9123 9863 | ericvinicius.vs@gmail.com | linkedin.com/in/vseric 
+                             | ericvinicius.vs@gmail.com | linkedin.com/in/vseric | 
 
 ---
 
