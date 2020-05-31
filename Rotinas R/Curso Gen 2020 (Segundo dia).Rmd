@@ -127,6 +127,17 @@ write.table(sorteioSPLITDBCC$book, file='SorteioSPLITDBCC.csv',
 # 4) Aditividade do modelo (O modelo deve conter apenas efeitos aditivos)
 
 
+#CARREGANDO PACOTES E IMPORTANDO OS CONJUNTOS DE DADOS
+```{r}
+library("agricolae")
+library("laercio")
+library("ggplot2")
+data(sweetpotato) #agricolae
+data(cotton) #agricolae
+dados<-(ldata) #laercio
+```
+
+
 #DIC
 $$
 y_{ij} = \mu + t_i + e_{ij}
@@ -146,7 +157,7 @@ shapiro.test(AOVsweetpotato$residuals)
 
 #Verificando a NORMALIDADE - Gráfico QQplot
 ```{r}
-install.packages("fBasics")
+#install.packages("fBasics")
 library(fBasics)
 qqnormPlot(AOVsweetpotato$residuals)
 ```
@@ -158,7 +169,7 @@ bartlett.test(AOVsweetpotato$residuals~virus,data=sweetpotato)
 
 #Verificando a INDEPENDÊNCIA - Durbin-Watson Test
 ```{r}
-install.packages("car")
+#install.packages("car")
 library("car")
 dwt(lm(yield ~ virus, data=sweetpotato))
 ```
@@ -210,7 +221,7 @@ dwt(lm(resp ~ trat + block, data=dados))
 
 #ADITIVIDADE - Tukey add Test
 ```{r}
-install.packages("asbio")
+#install.packages("asbio")
 library(asbio)
 tukey.add.test(dados$resp, dados$trat, dados$block)
 ```
@@ -219,18 +230,13 @@ tukey.add.test(dados$resp, dados$trat, dados$block)
 ##------------------- TRANSFORMÇÃO DE DADOS -------------------##
 
 ```{r}
-setwd("C:\\Users\\Usuario\\Desktop\\CURSO R GEN 2020")
-dir()
-```
-
-```{r}
 dados2<-read.table("https://raw.githubusercontent.com/VSSEric/Introduction-to-R-UFLA-2019/master/Exemplos/exemplo2.txt", h=T)
 str(dados2)
 ```
 
 #Trabalhando como DIC
 ```{r}
-AOVdados2<-aov(resp ~ trat, data=dados2)
+AOVdados2<-aov(VarResp ~ Trat, data=dados2)
 ```
 
 ```{r}
@@ -238,34 +244,34 @@ shapiro.test(AOVdados2$residuals)
 ```
 
 ```{r}
-bartlett.test(residuals(AOVdados2)~dados2$trat)
+bartlett.test(residuals(AOVdados2)~dados2$Trat)
 ```
 
 ```{r}
-car::dwt(lm(resp ~ trat, data=dados2))
+car::dwt(lm(VarResp ~ Trat, data=dados2))
 ```
 
 ##------------------- Testando Transformações Comuns -------------------##
 
 #Raiz Quadrada
 ```{r}
-dados2$RQUAD<-dados2$resp^(1/2)
+dados2$RQUAD<-dados2$VarResp^(1/2)
 ```
 
 #Raiz Cubica
 ```{r}
-dados2$RCUB<-dados2$resp^(1/3)
+dados2$RCUB<-dados2$VarResp^(1/3)
 ```
 
 #Log
 ```{r}
-dados2$LOG<-log(dados2$resp)
+dados2$LOG<-log(dados2$VarResp)
 
 ```
 
 #Potência
 ```{r}
-dados2$POT2<-dados2$resp^2
+dados2$POT2<-dados2$VarResp^2
 ```
 
 #Conferindo a Planilha
@@ -275,10 +281,10 @@ head(dados2)
 
 #Extraindo os residuos
 ```{r}
-AOVRQUAD<-aov(RQUAD ~ trat, data=dados2)
-AOVRCUB<-aov(RCUB ~ trat, data=dados2)
-AOVLOG<-aov(LOG ~ trat, data=dados2)
-AOVPOT2<-aov(POT2 ~ trat, data=dados2)
+AOVRQUAD<-aov(RQUAD ~ Trat, data=dados2)
+AOVRCUB<-aov(RCUB ~ Trat, data=dados2)
+AOVLOG<-aov(LOG ~ Trat, data=dados2)
+AOVPOT2<-aov(POT2 ~ Trat, data=dados2)
 ```
 
 
@@ -287,40 +293,40 @@ AOVPOT2<-aov(POT2 ~ trat, data=dados2)
 #Raiz Quadrada
 ```{r}
 shapiro.test(AOVRQUAD$residuals)
-bartlett.test(residuals(AOVRQUAD)~dados2$trat)
-car::dwt(lm(RQUAD ~ trat, data=dados2))
+bartlett.test(residuals(AOVRQUAD)~dados2$Trat)
+car::dwt(lm(RQUAD ~ Trat, data=dados2))
 ```
 
 #Raiz Cubica
 ```{r}
 shapiro.test(AOVRCUB$residuals)
-bartlett.test(residuals(AOVRCUB)~dados2$trat)
-car::dwt(lm(RCUB ~ trat, data=dados2))
+bartlett.test(residuals(AOVRCUB)~dados2$Trat)
+car::dwt(lm(RCUB ~ Trat, data=dados2))
 ```
 
 #LOG
 ```{r}
 shapiro.test(AOVLOG$residuals)
-bartlett.test(residuals(AOVLOG)~dados2$trat)
-car::dwt(lm(LOG ~ trat, data=dados2))
+bartlett.test(residuals(AOVLOG)~dados2$Trat)
+car::dwt(lm(LOG ~ Trat, data=dados2))
 ```
 
 #Potência
 ```{r}
 shapiro.test(AOVPOT2$residuals)
-bartlett.test(residuals(AOVPOT2)~dados2$trat)
-car::dwt(lm(POT2 ~ trat, data=dados2))
+bartlett.test(residuals(AOVPOT2)~dados2$Trat)
+car::dwt(lm(POT2 ~ Trat, data=dados2))
 ```
 
 #ANOVA
 ```{r}
-AOVRQUAD<-aov(RQUAD ~ trat, data=dados2)
+AOVRQUAD<-aov(RQUAD ~ Trat, data=dados2)
 anova(AOVRQUAD)
-print(agricolae::HSD.test(AOVRQUAD, "trat", group = TRUE)$groups)
+print(agricolae::HSD.test(AOVRQUAD, "Trat", group = TRUE)$groups)
 ```
 
 ```{r}
-dic(trat=dados2$trat, resp=dados2$RQUAD, quali = TRUE, mcomp = "tukey", nl = FALSE,
+dic(trat=dados2$Trat, resp=dados2$RQUAD, quali = TRUE, mcomp = "tukey", nl = FALSE,
     hvar='bartlett', sigT = 0.05, sigF = 0.05)
 ```
 
