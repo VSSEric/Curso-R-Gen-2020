@@ -365,21 +365,22 @@ anova(analise2)
 
 #Dados - DBC
 ```{r}
-head(dados)
-```
-
-
-```{r}
-str(dados)
+dados
 ```
 
 $$
 y_{ij} = \mu + t_i + b_j + e_{ij}
 $$
+
+
 #O que está errado???
 ```{r}
 analise3<-aov(resp ~ trat + block, data=dados)
 summary(analise3)
+```
+
+```{r}
+str(dados)
 ```
 
 ```{r}
